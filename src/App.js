@@ -18,32 +18,72 @@ class App extends React.Component {
 }
 
 class CalculatorInput extends React.Component {
+  handleSubmit(event) {
+    event.preventDefault();
+    let answer = ''; 
+    switch(this.state.operator) {
+      case '/':
+      answer = Number(this.state.firstValue) / Number(this.state.secondValue);
+          break;
+      case '+':
+      answer = Number(this.state.firstValue) + Number(this.state.secondValue);
+          break;
+      case '-':
+      answer = Number(this.state.firstValue) - Number(this.state.secondValue);
+          break;
+      case '*':
+      answer = Number(this.state.firstValue) * Number(this.state.secondValue);
+          break;
+  }
+
+    console.log(answer);
+  }
+
   constructor(props) {
     super(props);
-    this.state = { value: '' };
+    this.state = {
+      firstValue: '',
+      secondValue: '',
+      operator: ''
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
 
-  handleSubmit(event) {
-    event.preventDefault();
-
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div>
         <label>
-          Calculate:
-          <input type="number" value={this.state.value} onChange={this.handleChange} />
+          Calculate: 
+          <input type="number" name="firstValue" value={this.state.firstValue} onChange={this.handleChange}/>
+          
+          <select name="operator" value={this.state.operator} onChange={this.handleChange}>
+            <option value="nil">nil</option>
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="/">/</option>
+            <option value="*">*</option>
+          </select>
+
+          <input type="number" name="secondValue" value={this.state.secondValue} onChange={this.handleChange}/>
+
         </label>
-        <input type="submit" value="Submit" />
-      </form>
+
+        <label>Final Answer: {this.props.answerReceived}</label>
+        <input type="submit" onClick={this.handleSubmit}></input>
+        </div>
     );
   }
 }
@@ -52,7 +92,7 @@ class WelcomeHeader extends React.Component {
   render() {
     return (
       <div>
-        <h1 class="welcome-header">Welcome to My Calculator</h1>
+        <h1 className="welcome-header">Welcome to My Calculator</h1>
       </div>
     );
   }
