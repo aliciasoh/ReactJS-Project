@@ -3,15 +3,11 @@ import { hot } from "react-hot-loader";
 import "./styles/main.scss";
 
 class App extends React.Component {
-  enterApp() {
-    console.log('this is:', this);
-  }
-
   render() {
     return (
       <div className="App">
       <WelcomeHeader/>
-        <CalculatorInput />
+        <CalculatorInput/>
       </div>
     );
   }
@@ -36,7 +32,7 @@ class CalculatorInput extends React.Component {
           break;
   }
 
-    console.log(answer);
+  this.setState({answerReceived: answer});
   }
 
   constructor(props) {
@@ -44,12 +40,12 @@ class CalculatorInput extends React.Component {
     this.state = {
       firstValue: '',
       secondValue: '',
-      operator: ''
+      operator: '',
+      answerReceived: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   handleChange(event) {
@@ -80,10 +76,13 @@ class CalculatorInput extends React.Component {
           <input type="number" name="secondValue" value={this.state.secondValue} onChange={this.handleChange}/>
 
         </label>
-
-        <label>Final Answer: {this.props.answerReceived}</label>
         <input type="submit" onClick={this.handleSubmit}></input>
+
+        <div>
+          <label>Final Answer: {this.state.answerReceived}</label>
+          </div>
         </div>
+
     );
   }
 }
